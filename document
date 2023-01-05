@@ -1,0 +1,54 @@
+Intuition:
+	We are given a list of contiguous blocks on that street where each block contains an apartment that we could move into. And we are also given a list of requirements. Our tasks to pick the right block based on the requirements using the code.
+
+	To find the right block, we need to calculate the maximum distance we need to move to fulfill all the requirements. And in all the maximum distances, we need to select the block which has the minimum distance, so that we can optimize our life by traveling less.
+	
+	To do this we could move on to every block and find the maximum distance that we need to travel by left and right until we fulfill all the requirements. So for every block, we may need to walk to all the adjacent blocks. Which makes the code inefficient. Which leads to a quadratic amount of operations based on the given input. Which is O(n^2) time complexity.
+
+	In the previous approach if we observe, we calculate the distances again and again. To optimize this, we can use a two pass approach. Which is very efficient.
+	
+	Our main intuition for this should be optimization and scalability.
+
+
+Approach:
+	We can use a two pass approach, to find the max distance we need to travel to fulfill all the requirements. If we are at a block, we need left maximum distance and right maximum distance to travel, from that we can select minimum distance.
+	
+  To find the right distance, we move from the right end and calculate the optimal distance to travel from a specific block toward the left. This we can do from a single pass as we need to iterate from the end of  list to start of list.
+
+  In the next pass we move from the left and compare left and right distances and we choose the optimal distance. If the optimal distance is minimum the previous optimal distance, we select the particular block. 
+
+  From this in two passes we can select a block optimally
+
+Algorithm:
+  1. Initialize an array currentHavingRequirements to track whether each requirement is present at the current block.
+  2. Iterate through each block, and for each requirement, update currentHavingRequirements to be true if the requirement is present at the current block, or false otherwise.
+  3. Initialize an array presentReqs to store the requirements that are present in at least one block.
+  4. Iterate through currentHavingRequirements and add the corresponding requirement to presentReqs if it is true.
+  5. Set the value of reqs to be presentReqs.
+  6. Initialize an array optimalDistance to store the minimum distance from each requirement to the current block.
+  7. Initialize an array rightOptimalDistance to store the minimum distance from each requirement to each block, starting from the last block and going backwards.
+  8. Initialize variables optimalIndex and optimalDistance to store the index and distance of the optimal block, respectively. Set both to initial values of 0 and Number.MAX_SAFE_INTEGER, respectively.
+  9. Initialize an array leftOptimalDistance to store the minimum distance from each requirement to each block, starting from the first block and going forwards.
+  10. Iterate through each block and for each requirement, update leftOptimalDistance to be 0 if the requirement is present at the current block, or leftOptimalDistance plus 1 otherwise.
+  11. Initialize a variable max_dist to store the maximum of the minimum distances between the requirements and the current block, as calculated using leftOptimalDistance and rightOptimalDistance.
+  12. If max_dist is less than optimalDistance, set optimalIndex to be the current block index and optimalDistance to be max_dist.
+  13. Return optimalIndex
+ 
+ Expalantion for the given example : 
+  
+  Block 0 (index 0):
+  This block has a school but does not have a gym or a store. The nearest gym is at index 1 (distance = 1), and the nearest store is at index 4 (distance = 4). Therefore, the farthest distance you would have to walk from this block to reach a required building is 4 blocks.
+
+  Block 1 (index 1):
+  This block has a gym but does not have a school or a store. The nearest school is at index 0 (distance = 1), and the nearest store is at index 4 (distance = 3). Therefore, the farthest distance you would have to walk from this block to reach a required building is 3 blocks.
+
+  Block 2 (index 2):
+  This block has a gym and a school but does not have a store. The nearest store is at index 4 (distance = 2). Therefore, the farthest distance you would have to walk from this block to reach a required building is 2 blocks.
+
+  Block 3 (index 3):
+  This block has a school but does not have a gym or a store. The nearest gym is at index 1 (distance = 1), and the nearest store is at index 4 (distance = 1). Therefore, the farthest distance you would have to walk from this block to reach a required building is 1 block.
+
+  Block 4 (index 4):
+  This block has a store but does not have a gym or a school. The nearest gym is at index 1 (distance = 3), and the nearest school is at index 0 (distance = 4). Therefore, the farthest distance you would have to walk from this block to reach a required building is 4 blocks.
+ 
+  Here block 3 is the best choice to choose. Because maximum distance we need to travel is 1 to fulfill all the requirements.
