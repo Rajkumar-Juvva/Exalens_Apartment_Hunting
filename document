@@ -17,7 +17,14 @@ Approach:
 
   In the next pass we move from the left and compare left and right distances and we choose the optimal distance. If the optimal distance is minimum the previous optimal distance, we select the particular block. 
 
-  From this in two passes we can select a block optimally
+  From this in two passes we can select a block optimally.
+  
+ Edge cases:
+  1. If we don't find a requirement in any of the blocks, we need to search for remaining requirements.
+  	Ex:["gym", "school", "store"]
+	If we don't find a school in any of the blocks, we need to search optimal block for gym and store.
+  2. If a requirement is not given in particular block, we need to make false as default value.
+  	We can do this by using || operator.
 
 Algorithm:
   1. Initialize an array currentHavingRequirements to track whether each requirement is present at the current block.
@@ -33,7 +40,15 @@ Algorithm:
   11. Initialize a variable max_dist to store the maximum of the minimum distances between the requirements and the current block, as calculated using leftOptimalDistance and rightOptimalDistance.
   12. If max_dist is less than optimalDistance, set optimalIndex to be the current block index and optimalDistance to be max_dist.
   13. Return optimalIndex
- 
+
+ Time Complexity:
+ 	O(N*r) where n is number of blocks and r is number of requirements.
+	Here we are iterating through the blocks 3 times and inside every iterating we are iterating through all the reuirements.
+	
+ Space Complexity:
+ 	O(N*r) where n is number of blocks and r is number of requirements.
+	In one iterating, we are moving from right end to left end. In that iteration, we are storing the right optimal distance in an array.
+
  Expalantion for the given example : 
   
   Block 0 (index 0):
